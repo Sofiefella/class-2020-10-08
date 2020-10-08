@@ -117,6 +117,23 @@ Finally, use `geom_density` to plot the distributions of two states of your choi
 
 **You should do this in steps. First, create the `draws` object. Second, try to successfully change the format of the dataset. Don't do everything all at once in one long section with many pipes!!**
 
+```{r}
+draws <- simulate_election(100)
+
+draws_new <- draws %>%
+  pivot_longer(cols = everything(),
+               names_to = "states",
+               values_to = "trump_share")
+draws_new %>%
+  filter(states == "Massachusetts" | states == "Georgia") %>%
+  ggplot(aes(fill = states, x = trump_share)) +
+  geom_density() +
+  facet_wrap(~states) +
+  scale_fill_manual(values = c("salmon", "dodgerblue"))
+
+
+
+```
 
   
 ## Scene 2: Estimating Results from a Single State
